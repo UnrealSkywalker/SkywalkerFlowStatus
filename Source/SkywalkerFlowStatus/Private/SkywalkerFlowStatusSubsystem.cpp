@@ -6,9 +6,9 @@
 
 #pragma region FlowProcess
 
-bool USkywalkerFlowStatusSubsystem::OnSwitchLaunchProcess(TSubclassOf<ASkywalkerFlowProcess> NewFlowProcessClass)
+void USkywalkerFlowStatusSubsystem::SwitchFlowProcess(TSubclassOf<ASkywalkerFlowProcess> NewFlowProcessClass)
 {
-	ASkywalkerFlowProcess* NewFlowProcess = Cast<ASkywalkerFlowProcess>(UGameplayStatics::BeginDeferredActorSpawnFromClass(this, NewFlowProcessClass, FTransform::Identity, ESpawnActorCollisionHandlingMethod::AlwaysSpawn, nullptr));
+	ASkywalkerFlowProcess *NewFlowProcess = Cast<ASkywalkerFlowProcess>(UGameplayStatics::BeginDeferredActorSpawnFromClass(this, NewFlowProcessClass, FTransform::Identity, ESpawnActorCollisionHandlingMethod::AlwaysSpawn, nullptr));
 
 	if (CurrentFlowProcess != nullptr)
 	{
@@ -17,12 +17,21 @@ bool USkywalkerFlowStatusSubsystem::OnSwitchLaunchProcess(TSubclassOf<ASkywalker
 		CurrentFlowProcess->Destroy();
 	}
 
-
 	CurrentFlowProcess = NewFlowProcess;
 	CurrentFlowProcess->PreEnter();
 	CurrentFlowProcess->Enter();
+}
 
-	return true;
+void USkywalkerFlowStatusSubsystem::LeaveCurrent()
+{
+	if (CurrentFlowProcess != nullptr)
+	{
+		CurrentFlowProcess->PreLeave();
+		CurrentFlowProcess->Leave();
+		CurrentFlowProcess->Destroy();
+	}
+
+	CurrentFlowProcess = nullptr;
 }
 
 #pragma endregion FlowProcess
