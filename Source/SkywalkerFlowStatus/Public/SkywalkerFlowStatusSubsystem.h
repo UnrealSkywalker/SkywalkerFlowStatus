@@ -24,12 +24,12 @@ public:
 	/**
 	 * 切换
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Skywalker|Flow Process")
+	UFUNCTION(BlueprintCallable, Category = "Skywalker|FlowStatus")
 	void SwitchFlowProcess(TSubclassOf<ASkywalkerFlowProcess> NewFlowProcessClass);
 
 	/**
 	 * 退出当前
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Skywalker|Flow Process")
+	UFUNCTION(BlueprintCallable, Category = "Skywalker|FlowStatus")
 	void LeaveCurrent();
 };
